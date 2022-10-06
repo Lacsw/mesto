@@ -9,3 +9,17 @@
   display: flex;
   flex-direction: column;
 }
+
+@media screen and (max-width:1023px) {
+  .popup__container {
+    padding: 30px 26px;
+    width: 380px;
+  }
+}
+
+@media screen and (max-width:767px) {
+  .popup__container {
+    padding: 25px 22px;
+    width: 282px;
+  }
+}

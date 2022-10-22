@@ -10,6 +10,8 @@ const inputProfileName = document.querySelector('.popup__input_type_name');
 const inputProfileJob = document.querySelector('.popup__input_type_job');
 const formEditProfile = document.querySelector('.popup__edit-form');
 const formAddCard = document.querySelector('.popup__add-form');
+const popupImage = popupTypePicture.querySelector('.popup__image');
+const popupImageCaption = popupTypePicture.querySelector('.popup__image-caption');
 
 const profileEditBtn = document.querySelector('.profile__edit');
 const profileName = document.querySelector('.profile__name');
@@ -19,44 +21,15 @@ const profileAddBtn = document.querySelector('.profile__add-btn');
 const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector('.card-template').content;
 
-const initialCards = [
-  {
-    name: 'Северо-Атлантический океан',
-    link: './images/blake-cheek.jpeg',
-  },
-  {
-    name: 'El Matador',
-    link: './images/el-matador-beach.jpeg',
-  },
-  {
-    name: 'Мадасари',
-    link: './images/pantai-mandasari.jpeg',
-  },
-  {
-    name: 'Калифорния',
-    link: './images/california.jpeg',
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-  },
-  {
-    name: 'Страдброк',
-    link: './images/stradbroke-island.jpeg',
-  },
-];
-
-function createCard(cardName, cardLink) {
+function createCard(card) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
 
-  cardElement.querySelector('.card__title').textContent = cardName;
-  cardImage.src = cardLink;
-  cardImage.alt = cardName;
+  cardElement.querySelector('.card__title').textContent = card.name;
+  cardImage.src = card.link;
+  cardImage.alt = card.name;
 
-  cardElement
-    .querySelector('.card__like-btn')
-    .addEventListener('click', (evt) => evt.target.classList.toggle('card__like-btn_active'));
+  cardElement.querySelector('.card__like-btn').addEventListener('click', (evt) => likeCard(evt));
 
   cardElement.querySelector('.card__remove-btn').addEventListener('click', () => cardElement.remove());
   cardImage.addEventListener('click', (evt) => showPicture(evt.target.alt, evt.target.src));
@@ -65,18 +38,23 @@ function createCard(cardName, cardLink) {
 }
 
 function showPicture(cardName, cardLink) {
-  popupTypePicture.querySelector('.popup__image').src = cardLink;
-  popupTypePicture.querySelector('.popup__image-caption').textContent = cardName;
+  popupImage.src = cardLink;
+  popupImage.alt = cardName;
+  popupImageCaption.textContent = cardName;
   openPopup(popupTypePicture);
 }
 
-function addCard(cardName, cardLink) {
-  cardsContainer.prepend(createCard(cardName, cardLink));
+function likeCard(card) {
+  card.target.classList.toggle('card__like-btn_active');
+}
+
+function addCard(card) {
+  cardsContainer.prepend(createCard(card));
 }
 
 function renderCards() {
-  initialCards.forEach((item) => {
-    addCard(item.name, item.link);
+  initialCards.forEach((card) => {
+    addCard(card);
   });
 }
 renderCards();
@@ -95,15 +73,15 @@ closeButtons.forEach((button) => {
 });
 
 function handleOpenProfilePopup() {
-  openPopup(popupTypeEdit);
   inputProfileName.value = profileName.textContent;
   inputProfileJob.value = profileJob.textContent;
+  openPopup(popupTypeEdit);
 }
 
-function formEditProfileSubmitHandler(evt) {
+function handleSubmitEditProfileForm(evt) {
   evt.preventDefault();
-  let newName = inputProfileName.value;
-  let newJob = inputProfileJob.value;
+  const newName = inputProfileName.value;
+  const newJob = inputProfileJob.value;
   profileName.textContent = newName;
   profileJob.textContent = newJob;
   closePopup(popupTypeEdit);
@@ -113,7 +91,7 @@ function handleOpenAddCardPopup() {
   openPopup(popupTypeAdd);
 }
 
-function formAddCardSubmitHandler(evt) {
+function handleSubmitAddCardForm(evt) {
   evt.preventDefault();
   addCard(inputPlaceName.value, inputPlaceLink.value);
   closePopup(popupTypeAdd);
@@ -121,6 +99,6 @@ function formAddCardSubmitHandler(evt) {
 }
 
 profileEditBtn.addEventListener('click', handleOpenProfilePopup);
-formEditProfile.addEventListener('submit', formEditProfileSubmitHandler);
+formEditProfile.addEventListener('submit', handleSubmitEditProfileForm);
 profileAddBtn.addEventListener('click', handleOpenAddCardPopup);
-formAddCard.addEventListener('submit', formAddCardSubmitHandler);
+formAddCard.addEventListener('submit', handleSubmitAddCardForm);

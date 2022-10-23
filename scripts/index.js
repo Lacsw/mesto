@@ -93,7 +93,11 @@ function handleOpenAddCardPopup() {
 
 function handleSubmitAddCardForm(evt) {
   evt.preventDefault();
-  addCard(inputPlaceName.value, inputPlaceLink.value);
+  const card = { 
+    name: inputPlaceName.value,
+    link: inputPlaceLink.value,
+   };
+  addCard(card);
   closePopup(popupTypeAdd);
   evt.target.reset();
 }

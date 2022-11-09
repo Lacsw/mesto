@@ -4,7 +4,6 @@ const popups = document.querySelectorAll('.popup');
 const popupTypeEdit = document.querySelector('.popup_type_edit');
 const popupTypeAdd = document.querySelector('.popup_type_add');
 const popupTypePicture = document.querySelector('.popup_type_picture');
-const closeButtons = document.querySelectorAll('.popup__close-btn');
 const inputPlaceName = document.querySelector('.popup__input_type_place-name');
 const inputPlaceLink = document.querySelector('.popup__input_type_link');
 const inputProfileName = document.querySelector('.popup__input_type_name');
@@ -60,25 +59,23 @@ function renderCards() {
 }
 renderCards();
 
-function handleKeydownClose(evt, popup) {
+function closeByEscape(evt) {
   if (evt.key === 'Escape') {
-    closePopup(popup);
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
   }
 }
 
 function openPopup(popup) {
   popup.classList.add(POPUP_OPENED_CLASS);
-  document.addEventListener('keydown', (evt) => {
-    handleKeydownClose(evt, popup);
-  });
+  document.addEventListener('keydown', closeByEscape);
 }
 
 function closePopup(popup) {
   popup.classList.remove(POPUP_OPENED_CLASS);
-  document.removeEventListener('keydown', (evt) => {
-    handleKeydownClose(evt, popup);
-  });
+  document.removeEventListener('keydown', closeByEscape);
 }
+
 popups.forEach((popup) => {
   const popupContainer = popup.querySelector('.popup__container');
   const imageContainer = popup.querySelector('.popup__image-container');
@@ -96,9 +93,13 @@ popups.forEach((popup) => {
 });
 
 function handleOpenProfilePopup() {
+  const inputList = Array.from(popupTypeEdit.querySelectorAll('.popup__input'));
+  const submitButtonSelector = popupTypeEdit.querySelector('.popup__submit-btn');
+  
   inputProfileName.value = profileName.textContent;
   inputProfileJob.value = profileJob.textContent;
   openPopup(popupTypeEdit);
+  toggleButtonState(inputList, submitButtonSelector);
 }
 
 function handleSubmitEditProfileForm(evt) {
@@ -112,6 +113,9 @@ function handleSubmitEditProfileForm(evt) {
 
 function handleOpenAddCardPopup() {
   openPopup(popupTypeAdd);
+  const inputList = Array.from(popupTypeAdd.querySelectorAll('.popup__input'));
+  const submitButtonSelector = popupTypeAdd.querySelector('.popup__submit-btn');
+  toggleButtonState(inputList, submitButtonSelector);
 }
 
 function handleSubmitAddCardForm(evt) {

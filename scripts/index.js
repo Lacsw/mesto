@@ -23,31 +23,15 @@ const profileAddBtn = document.querySelector('.profile__add-btn');
 
 const cardsContainer = document.querySelector('.cards');
 
-// function createCard(card) {
-//   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-//   const cardImage = cardElement.querySelector('.card__image');
-
-//   cardElement.querySelector('.card__title').textContent = card.name;
-//   cardImage.src = card.link;
-//   cardImage.alt = card.name;
-
-//   cardElement.querySelector('.card__like-btn').addEventListener('click', (evt) => likeCard(evt));
-//   cardElement.querySelector('.card__remove-btn').addEventListener('click', () => cardElement.remove());
-
-//   cardImage.addEventListener('click', (evt) => showPicture(evt.target.alt, evt.target.src));
-
-//   return cardElement;
-// }
-
-function showPicture(cardName, cardLink) {
-  popupImage.src = cardLink;
-  popupImage.alt = cardName;
-  popupImageCaption.textContent = cardName;
+function showPicture(card) {
+  popupImage.src = card.link;
+  popupImage.alt = card.name;
+  popupImageCaption.textContent = card.name;
   openPopup(popupTypePicture);
 }
 
 function addCard(card) {
-  const newCard = new Card(card, (name, link) => showPicture(name, link));
+  const newCard = new Card(card, '.card-template', (card) => showPicture(card));
   const newCardElement = newCard.createCard();
 
   cardsContainer.prepend(newCardElement);

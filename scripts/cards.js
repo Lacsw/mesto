@@ -1,4 +1,4 @@
-const initialCards = [
+export const initialCards = [
   {
     name: 'Северо-Атлантический океан',
     link: './images/blake-cheek.jpeg',

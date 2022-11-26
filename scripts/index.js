@@ -1,5 +1,8 @@
 import { Card } from './Card.js';
-import { initialCards } from './cards.js';
+import { FormValidator } from './FormValidator.js';
+
+import { initialCards } from './variables/cards.js';
+import { validatedObj } from './variables/validateConfig.js';
 
 const POPUP_OPENED_CLASS = 'popup_opened';
 
@@ -23,6 +26,12 @@ const profileAddBtn = document.querySelector('.profile__add-btn');
 
 const cardsContainer = document.querySelector('.cards');
 
+const eidtFormValidator = new FormValidator(validatedObj, formEditProfile);
+const addCardValidator = new FormValidator(validatedObj, formAddCard);
+
+eidtFormValidator.enableValidation();
+addCardValidator.enableValidation();
+
 function showPicture(card) {
   popupImage.src = card.link;
   popupImage.alt = card.name;
@@ -31,14 +40,14 @@ function showPicture(card) {
 }
 
 function addCard(card) {
-  const newCard = new Card(card, '.card-template', (card) => showPicture(card));
+  const newCard = new Card(card, '.card-template', showPicture);
   const newCardElement = newCard.createCard();
 
   cardsContainer.prepend(newCardElement);
 }
 
 function renderCards() {
-  initialCards.forEach((card) => addCard(card));
+  initialCards.forEach(addCard);
 }
 renderCards();
 
@@ -76,13 +85,9 @@ popups.forEach((popup) => {
 });
 
 function handleOpenProfilePopup() {
-  const inputList = Array.from(popupTypeEdit.querySelectorAll('.popup__input'));
-  const submitButtonSelector = popupTypeEdit.querySelector('.popup__submit-btn');
-
   inputProfileName.value = profileName.textContent;
   inputProfileJob.value = profileJob.textContent;
   openPopup(popupTypeEdit);
-  toggleButtonState(inputList, submitButtonSelector);
 }
 
 function handleSubmitEditProfileForm(evt) {
@@ -96,9 +101,7 @@ function handleSubmitEditProfileForm(evt) {
 
 function handleOpenAddCardPopup() {
   openPopup(popupTypeAdd);
-  const inputList = Array.from(popupTypeAdd.querySelectorAll('.popup__input'));
-  const submitButtonSelector = popupTypeAdd.querySelector('.popup__submit-btn');
-  toggleButtonState(inputList, submitButtonSelector);
+  addCardValidator.toggleButtonState();
 }
 
 function handleSubmitAddCardForm(evt) {

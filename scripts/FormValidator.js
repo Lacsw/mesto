@@ -1,6 +1,8 @@
 export class FormValidator {
   _validatedObj;
   _formSelector;
+  _buttonSelector;
+  _inputList;
 
   constructor(validatedObj, formSelector) {
     this._validatedObj = validatedObj;

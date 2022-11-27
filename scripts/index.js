@@ -39,10 +39,14 @@ function showPicture(card) {
   openPopup(popupTypePicture);
 }
 
-function addCard(card) {
-  const newCard = new Card(card, '.card-template', showPicture);
-  const newCardElement = newCard.createCard();
+function createCard(item) {
+  const card = new Card(item, '.card-template', showPicture);
+  const cardElement = card.createCard();
+  return cardElement;
+}
 
+function addCard(card) {
+  const newCardElement = createCard(card);
   cardsContainer.prepend(newCardElement);
 }
 

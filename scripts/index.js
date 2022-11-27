@@ -87,6 +87,7 @@ popups.forEach((popup) => {
 function handleOpenProfilePopup() {
   inputProfileName.value = profileName.textContent;
   inputProfileJob.value = profileJob.textContent;
+  eidtFormValidator.resetValidation();
   openPopup(popupTypeEdit);
 }
 
@@ -101,7 +102,7 @@ function handleSubmitEditProfileForm(evt) {
 
 function handleOpenAddCardPopup() {
   openPopup(popupTypeAdd);
-  addCardValidator.toggleButtonState();
+  addCardValidator.resetValidation();
 }
 
 function handleSubmitAddCardForm(evt) {

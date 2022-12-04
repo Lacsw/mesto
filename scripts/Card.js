@@ -6,10 +6,10 @@ export class Card {
   showPicture;
   templateSelector;
 
-  constructor(data, templateSelector, showPicture) {
+  constructor(data, templateSelector,  handleCardClick ) {
     this._data = data;
     this._getTemplate(templateSelector);
-    this.showPicture = showPicture;
+    this.handleCardClick = handleCardClick;
   }
 
   _getTemplate(templateSelector) {
@@ -20,14 +20,14 @@ export class Card {
     evt.target.classList.toggle('card__like-btn_active');
   }
 
-  _openPicture() {
-    this.showPicture(this._data);
-  }
+  // _openPicture() {
+  //   this.handleCardClick(this._data);
+  // }
 
   _setEventListeners() {
     this._element.querySelector('.card__like-btn').addEventListener('click', this._like);
     this._element.querySelector('.card__remove-btn').addEventListener('click', () => this._element.remove());
-    this._cardImage.addEventListener('click', this._openPicture.bind(this));
+    this._cardImage.addEventListener('click', () => this.handleCardClick(this._data));
   }
 
   createCard() {

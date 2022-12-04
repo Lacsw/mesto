@@ -1,10 +1,12 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+import { PopupWithImage } from './PopupWithImage.js';
+import { Section } from './Section.js';
 
 import { initialCards } from './variables/cards.js';
 import { validatedObj } from './variables/validateConfig.js';
 
-const POPUP_OPENED_CLASS = 'popup_opened';
+export const POPUP_OPENED_CLASS = 'popup_opened';
 
 const popups = document.querySelectorAll('.popup');
 const popupTypeEdit = document.querySelector('.popup_type_edit');
@@ -24,7 +26,7 @@ const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 const profileAddBtn = document.querySelector('.profile__add-btn');
 
-const cardsContainer = document.querySelector('.cards');
+const cardsContainer = '.cards';
 
 const eidtFormValidator = new FormValidator(validatedObj, formEditProfile);
 const addCardValidator = new FormValidator(validatedObj, formAddCard);
@@ -32,61 +34,71 @@ const addCardValidator = new FormValidator(validatedObj, formAddCard);
 eidtFormValidator.enableValidation();
 addCardValidator.enableValidation();
 
-function showPicture(card) {
-  popupImage.src = card.link;
-  popupImage.alt = card.name;
-  popupImageCaption.textContent = card.name;
-  openPopup(popupTypePicture);
-}
+// function showPicture(card) {
+//   popupImage.src = card.link;
+//   popupImage.alt = card.name;
+//   popupImageCaption.textContent = card.name;
+//   openPopup(popupTypePicture);
+// }
 
-function createCard(item) {
-  const card = new Card(item, '.card-template', showPicture);
-  const cardElement = card.createCard();
-  return cardElement;
-}
+const popupWithImage = new PopupWithImage('.popup_type_picture');
 
-function addCard(card) {
-  const newCardElement = createCard(card);
-  cardsContainer.prepend(newCardElement);
-}
+const cardList = new Section(
+  {
+    item: initialCards,
+    renderer: (item) => {
+      const card = new Card(item, '.card-template', (item) => popupWithImage.open(item));
+      const cardElement = card.createCard();
 
-function renderCards() {
-  initialCards.forEach(addCard);
-}
-renderCards();
+      cardList.addItem(cardElement);
+    },
+  },
+  cardsContainer
+);
+cardList.renderItems();
 
-function closeByEscape(evt) {
-  if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup);
-  }
-}
+// function createCard(item) {
+//   const card = new Card(item, '.card-template', showPicture);
+//   const cardElement = card.createCard();
+//   return cardElement;
+// }
 
-function openPopup(popup) {
-  popup.classList.add(POPUP_OPENED_CLASS);
-  document.addEventListener('keydown', closeByEscape);
-}
+// function addCard(card) {
+//   const newCardElement = createCard(card);
+//   cardsContainer.prepend(newCardElement);
+// }
 
-function closePopup(popup) {
-  popup.classList.remove(POPUP_OPENED_CLASS);
-  document.removeEventListener('keydown', closeByEscape);
-}
+// function renderCards() {
+//   initialCards.forEach(addCard);
+// }
+// renderCards();
 
-popups.forEach((popup) => {
-  const popupContainer = popup.querySelector('.popup__container');
-  const imageContainer = popup.querySelector('.popup__image-container');
-  const popupCloseBtn = popup.querySelector('.popup__close-btn');
+// _____
 
-  popup.addEventListener('click', function (evt) {
-    if (
-      (popupContainer && !popupContainer.contains(evt.target)) ||
-      (imageContainer && !imageContainer.contains(evt.target)) ||
-      evt.target === popupCloseBtn
-    ) {
-      closePopup(popup);
-    }
-  });
-});
+// function closeByEscape(evt) {
+//   if (evt.key === 'Escape') {
+//     const openedPopup = document.querySelector('.popup_opened');
+//     closePopup(openedPopup);
+//   }
+// }
+
+// function openPopup(popup) {
+//   popup.classList.add(POPUP_OPENED_CLASS);
+//   document.addEventListener('keydown', closeByEscape);
+// }
+
+// function closePopup(popup) {
+//   popup.classList.remove(POPUP_OPENED_CLASS);
+//   document.removeEventListener('keydown', closeByEscape);
+// }
+
+// popups.forEach((popup) => {
+//   popup.addEventListener('click', function (evt) {
+//     if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-btn')) {
+//       closePopup(popup);
+//     }
+//   });
+// });
 
 function handleOpenProfilePopup() {
   inputProfileName.value = profileName.textContent;

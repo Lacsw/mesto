@@ -3,10 +3,9 @@ export class Card {
   _element;
   _cardImage;
   _template;
-  showPicture;
   templateSelector;
 
-  constructor(data, templateSelector,  handleCardClick ) {
+  constructor(data, templateSelector, handleCardClick) {
     this._data = data;
     this._getTemplate(templateSelector);
     this.handleCardClick = handleCardClick;
@@ -19,10 +18,6 @@ export class Card {
   _like(evt) {
     evt.target.classList.toggle('card__like-btn_active');
   }
-
-  // _openPicture() {
-  //   this.handleCardClick(this._data);
-  // }
 
   _setEventListeners() {
     this._element.querySelector('.card__like-btn').addEventListener('click', this._like);

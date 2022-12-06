@@ -1,5 +1,3 @@
-import { POPUP_OPENED_CLASS } from './index.js';
-
 export class Popup {
   _popupElement;
   _popupSelector;
@@ -28,11 +26,11 @@ export class Popup {
 
   open() {
     this.setEventListeners();
-    this._popupElement.classList.add(POPUP_OPENED_CLASS);
+    this._popupElement.classList.add('popup_opened');
   }
 
   close() {
-    this._popupElement.classList.remove(POPUP_OPENED_CLASS);
+    this._popupElement.classList.remove('popup_opened');
     this._popupElement.removeEventListener('click', this._hendleClickClose);
     document.removeEventListener('keydown', this._handleEscClose);
   }

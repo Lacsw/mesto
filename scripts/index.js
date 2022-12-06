@@ -5,10 +5,8 @@ import { PopupWithForm } from './PopupWithForm.js';
 import { Section } from './Section.js';
 import { UserInfo } from './UserInfo.js';
 
-import { initialCards } from './variables/cards.js';
-import { validatedObj } from './variables/validateConfig.js';
+import { initialCards, validateConfig } from './utils/constants.js';
 
-export const POPUP_OPENED_CLASS = 'popup_opened';
 const popupTypeEditSelector = '.popup_type_edit';
 const popupTypeAddSelector = '.popup_type_add';
 const popupPictureSelector = '.popup_type_picture';
@@ -22,8 +20,8 @@ const formAddCard = document.querySelector('.popup__add-form');
 const profileEditBtn = document.querySelector('.profile__edit');
 const profileAddBtn = document.querySelector('.profile__add-btn');
 
-const eidtFormValidator = new FormValidator(validatedObj, formEditProfile);
-const addCardValidator = new FormValidator(validatedObj, formAddCard);
+const eidtFormValidator = new FormValidator(validateConfig, formEditProfile);
+const addCardValidator = new FormValidator(validateConfig, formAddCard);
 eidtFormValidator.enableValidation();
 addCardValidator.enableValidation();
 

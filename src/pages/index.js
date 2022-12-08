@@ -1,3 +1,5 @@
+import './index.css';
+
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
@@ -14,7 +16,6 @@ const cardsContainerSelector = '.cards';
 
 const inputProfileName = document.querySelector('.popup__input_type_name');
 const inputProfileJob = document.querySelector('.popup__input_type_job');
-
 const profileEditBtn = document.querySelector('.profile__edit');
 const profileAddBtn = document.querySelector('.profile__add-btn');
 

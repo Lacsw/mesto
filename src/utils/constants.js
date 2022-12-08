@@ -1,19 +1,25 @@
+const northOceanImage = new URL('../images/blake-cheek.jpeg', import.meta.url);
+const elMatadoreImage = new URL('../images/el-matador-beach.jpeg', import.meta.url);
+const mandasariImage = new URL('../images/pantai-mandasari.jpeg', import.meta.url);
+const californiaImage = new URL('../images/california.jpeg', import.meta.url);
+const stradbrokeImage = new URL('../images/stradbroke-island.jpeg', import.meta.url);
+
 export const initialCards = [
   {
     name: 'Северо-Атлантический океан',
-    link: './images/blake-cheek.jpeg',
+    link: northOceanImage,
   },
   {
     name: 'El Matador',
-    link: './images/el-matador-beach.jpeg',
+    link: elMatadoreImage,
   },
   {
     name: 'Мадасари',
-    link: './images/pantai-mandasari.jpeg',
+    link: mandasariImage,
   },
   {
     name: 'Калифорния',
-    link: './images/california.jpeg',
+    link: californiaImage,
   },
   {
     name: 'Байкал',
@@ -21,7 +27,7 @@ export const initialCards = [
   },
   {
     name: 'Страдброк',
-    link: './images/stradbroke-island.jpeg',
+    link: stradbrokeImage,
   },
 ];
 

@@ -19,9 +19,14 @@ export class Card {
     evt.target.classList.toggle('card__like-btn_active');
   }
 
+  _delete() {
+    this._element.remove();
+    this._element = null;
+  }
+
   _setEventListeners() {
     this._element.querySelector('.card__like-btn').addEventListener('click', this._like);
-    this._element.querySelector('.card__remove-btn').addEventListener('click', () => this._element.remove());
+    this._element.querySelector('.card__remove-btn').addEventListener('click', this._delete.bind(this));
     this._cardImage.addEventListener('click', () => this.handleCardClick(this._data));
   }
 

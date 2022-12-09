@@ -7,6 +7,8 @@ export class FormValidator {
   constructor(validatedObj, formSelector) {
     this._validatedObj = validatedObj;
     this._formSelector = formSelector;
+    this._inputList = Array.from(this._formSelector.querySelectorAll(this._validatedObj.inputSelector));
+    this._buttonSelector = this._formSelector.querySelector(this._validatedObj.submitButtonSelector);
   }
 
   _showInputError(inputSelector, errorMessage) {
@@ -67,9 +69,6 @@ export class FormValidator {
   }
 
   enableValidation() {
-    this._inputList = Array.from(this._formSelector.querySelectorAll(this._validatedObj.inputSelector));
-    this._buttonSelector = this._formSelector.querySelector(this._validatedObj.submitButtonSelector);
-
     this._setEventListeners();
   }
 }

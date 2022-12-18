@@ -46,19 +46,22 @@ function createNewCard(item) {
   return new Card(item, '.card-template', (item) => popupWithImage.open(item)).createCard();
 }
 
-api.getInitialCards().then((data) => {
-  const cardList = new Section(
-    {
-      item: data,
-      renderer: (item) => {
-        const card = createNewCard(item);
-        cardList.addItem(card);
+api
+  .getInitialCards()
+  .then((data) => {
+    const cardList = new Section(
+      {
+        item: data,
+        renderer: (item) => {
+          const card = createNewCard(item);
+          cardList.addItem(card);
+        },
       },
-    },
-    cardsContainerSelector
-  );
-  cardList.renderItems();
-});
+      cardsContainerSelector
+    );
+    cardList.renderItems();
+  })
+  .catch((err) => console.log(err));
 
 const user = new UserInfo({
   profileNameSelector: '.profile__name',
@@ -72,7 +75,12 @@ api.getUserInfo().then((data) => {
 
 const profilePopup = new PopupWithForm(popupTypeEditSelector, {
   handleSubmitForm: (data) => {
-    user.setUserInfo(data);
+    api
+      .setUserInfo(data)
+      .then((res) => {
+        user.setUserInfo(res);
+      })
+      .catch((err) => console.log(err));
     profilePopup.close();
   },
 });
@@ -80,7 +88,7 @@ const profilePopup = new PopupWithForm(popupTypeEditSelector, {
 function handleOpenProfilePopup() {
   const userData = user.getUserInfo();
   inputProfileName.value = userData.name;
-  inputProfileJob.value = userData.job;
+  inputProfileJob.value = userData.about;
   formValidators['edit-form'].resetValidation();
   profilePopup.open();
 }

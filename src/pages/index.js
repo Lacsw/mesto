@@ -6,6 +6,7 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
+import { Api } from '../components/Api.js';
 
 import { initialCards, validateConfig } from '../utils/constants.js';
 
@@ -19,8 +20,17 @@ const inputProfileJob = document.querySelector('.popup__input_type_job');
 const profileEditBtn = document.querySelector('.profile__edit');
 const profileAddBtn = document.querySelector('.profile__add-btn');
 
-const formValidators = {};
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-56',
+  headers: {
+    authorization: '9a596bd9-c6d6-4de4-b642-ea24a3ef64a1',
+    'Content-Type': 'application/json',
+  },
+});
 
+api.getInitialCards();
+
+const formValidators = {};
 const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
   formList.forEach((formElement) => {
@@ -34,7 +44,6 @@ const enableValidation = (config) => {
 enableValidation(validateConfig);
 
 const popupWithImage = new PopupWithImage(popupPictureSelector);
-
 function createNewCard(item) {
   return new Card(item, '.card-template', (item) => popupWithImage.open(item)).createCard();
 }
@@ -54,6 +63,10 @@ cardList.renderItems();
 const user = new UserInfo({
   profileNameSelector: '.profile__name',
   profileJobSelector: '.profile__job',
+});
+
+api.getUserInfo().then((data) => {
+  user.setUserInfo(data);
 });
 
 const profilePopup = new PopupWithForm(popupTypeEditSelector, {

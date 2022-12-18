@@ -63,6 +63,7 @@ cardList.renderItems();
 const user = new UserInfo({
   profileNameSelector: '.profile__name',
   profileJobSelector: '.profile__job',
+  profileAvatarSelector: '.profile__image',
 });
 
 api.getUserInfo().then((data) => {

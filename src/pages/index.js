@@ -8,7 +8,7 @@ import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
 
-import { initialCards, validateConfig } from '../utils/constants.js';
+import { validateConfig } from '../utils/constants.js';
 
 const popupTypeEditSelector = '.popup_type_edit';
 const popupTypeAddSelector = '.popup_type_add';
@@ -28,8 +28,6 @@ const api = new Api({
   },
 });
 
-api.getInitialCards();
-
 const formValidators = {};
 const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
@@ -48,17 +46,19 @@ function createNewCard(item) {
   return new Card(item, '.card-template', (item) => popupWithImage.open(item)).createCard();
 }
 
-const cardList = new Section(
-  {
-    item: initialCards,
-    renderer: (item) => {
-      const card = createNewCard(item);
-      cardList.addItem(card);
+api.getInitialCards().then((data) => {
+  const cardList = new Section(
+    {
+      item: data,
+      renderer: (item) => {
+        const card = createNewCard(item);
+        cardList.addItem(card);
+      },
     },
-  },
-  cardsContainerSelector
-);
-cardList.renderItems();
+    cardsContainerSelector
+  );
+  cardList.renderItems();
+});
 
 const user = new UserInfo({
   profileNameSelector: '.profile__name',

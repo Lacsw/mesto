@@ -4,67 +4,47 @@ export class Api {
     this._headers = options.headers;
   }
 
-  getUserInfo() {
-    return fetch(`${this._baseUsl}/users/me`, {
+  async getUserInfo() {
+    const response = await fetch(`${this._baseUsl}/users/me`, {
       method: 'GET',
       headers: this._headers,
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch((err) => console.log(err));
+    });
+    const data = response.json();
+    return data;
   }
 
-  setUserInfo(data) {
-    return fetch(`${this._baseUsl}/users/me`, {
+  async setUserInfo(data) {
+    const response = await fetch(`${this._baseUsl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         about: data.about,
       }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch((err) => console.log(err));
+    });
+    const dataPromise = response.json();
+    return dataPromise;
   }
 
-  getInitialCards() {
-    return fetch(`${this._baseUsl}/cards`, {
+  async getInitialCards() {
+    const response = await fetch(`${this._baseUsl}/cards`, {
       method: 'GET',
       headers: this._headers,
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch((err) => console.log(err));
+    });
+    const data = response.json();
+    return data;
   }
 
-  addNewCard(data) {
-    return fetch(`${this._baseUsl}/cards`, {
+  async addNewCard(data) {
+    const response = await fetch(`${this._baseUsl}/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         name: data['place-name'],
         link: data['link'],
       }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch((err) => console.log(err));
+    });
+    const dataPromise = response.json();
+    return dataPromise;
   }
 }

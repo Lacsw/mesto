@@ -49,4 +49,22 @@ export class Api {
       })
       .catch((err) => console.log(err));
   }
+
+  addNewCard(data) {
+    return fetch(`${this._baseUsl}/cards`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: data['place-name'],
+        link: data['link'],
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .catch((err) => console.log(err));
+  }
 }

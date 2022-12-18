@@ -46,20 +46,20 @@ function createNewCard(item) {
   return new Card(item, '.card-template', (item) => popupWithImage.open(item)).createCard();
 }
 
+const cardList = new Section(
+  {
+    renderer: (item) => {
+      const card = createNewCard(item);
+      cardList.addItem(card);
+    },
+  },
+  cardsContainerSelector
+);
+
 api
   .getInitialCards()
   .then((data) => {
-    const cardList = new Section(
-      {
-        item: data,
-        renderer: (item) => {
-          const card = createNewCard(item);
-          cardList.addItem(card);
-        },
-      },
-      cardsContainerSelector
-    );
-    cardList.renderItems();
+    cardList.renderItems(data);
   })
   .catch((err) => console.log(err));
 
@@ -75,12 +75,9 @@ api.getUserInfo().then((data) => {
 
 const profilePopup = new PopupWithForm(popupTypeEditSelector, {
   handleSubmitForm: (data) => {
-    api
-      .setUserInfo(data)
-      .then((res) => {
-        user.setUserInfo(res);
-      })
-      .catch((err) => console.log(err));
+    api.setUserInfo(data).then((res) => {
+      user.setUserInfo(res);
+    });
     profilePopup.close();
   },
 });
@@ -96,13 +93,10 @@ profileEditBtn.addEventListener('click', handleOpenProfilePopup);
 
 const addCardPopup = new PopupWithForm(popupTypeAddSelector, {
   handleSubmitForm: (data) => {
-    const newCard = {
-      name: data['place-name'],
-      link: data['link'],
-    };
-    const card = createNewCard(newCard);
-    cardList.addItem(card);
-
+    api.addNewCard(data).then((res) => {
+      const card = createNewCard(res);
+      cardList.addItem(card);
+    });
     addCardPopup.close();
   },
 });

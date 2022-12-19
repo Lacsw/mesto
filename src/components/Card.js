@@ -19,6 +19,10 @@ export class Card {
     evt.target.classList.toggle('card__like-btn_active');
   }
 
+  setLikeCounter() {
+    this._likeCounterElement.textContent = this._data.likes.length;
+  }
+
   _delete() {
     this._element.remove();
     this._element = null;
@@ -33,12 +37,15 @@ export class Card {
   createCard() {
     this._element = this._template.cloneNode(true);
     this._cardImage = this._element.querySelector('.card__image');
+    this._likeCounterElement = this._element.querySelector('.card__like-counter');
+    
 
     this._element.querySelector('.card__title').textContent = this._data.name;
     this._cardImage.src = this._data.link;
     this._cardImage.alt = this._data.name;
 
     this._setEventListeners();
+    this.setLikeCounter();
 
     return this._element;
   }

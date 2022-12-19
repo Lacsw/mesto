@@ -56,12 +56,9 @@ const cardList = new Section(
   cardsContainerSelector
 );
 
-api
-  .getInitialCards()
-  .then((data) => {
-    cardList.renderItems(data);
-  })
-  .catch((err) => console.log(err));
+api.getInitialCards().then((data) => {
+  cardList.renderItems(data);
+});
 
 const user = new UserInfo({
   profileNameSelector: '.profile__name',

@@ -41,9 +41,10 @@ const enableValidation = (config) => {
 };
 enableValidation(validateConfig);
 
+let userId = '';
 const popupWithImage = new PopupWithImage(popupPictureSelector);
 function createNewCard(item) {
-  return new Card(item, '.card-template', (item) => popupWithImage.open(item)).createCard();
+  return new Card(item, '.card-template', (item) => popupWithImage.open(item), userId).createCard();
 }
 
 const cardList = new Section(
@@ -68,6 +69,7 @@ const user = new UserInfo({
 
 api.getUserInfo().then((data) => {
   user.setUserInfo(data);
+  userId = data._id;
 });
 
 const profilePopup = new PopupWithForm(popupTypeEditSelector, {

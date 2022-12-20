@@ -1,12 +1,8 @@
 export class Card {
-  _data;
-  _element;
-  _cardImage;
-  _template;
-  templateSelector;
-
-  constructor(data, templateSelector, handleCardClick) {
+  constructor(data, templateSelector, handleCardClick, userId) {
     this._data = data;
+    this._ownerCardId = data.owner._id;
+    this._userId = userId;
     this._getTemplate(templateSelector);
     this.handleCardClick = handleCardClick;
   }
@@ -28,9 +24,15 @@ export class Card {
     this._element = null;
   }
 
+  _isOwner() {
+    if (this._userId !== this._ownerCardId) {
+      this._removeBtn.remove();
+    }
+  }
+
   _setEventListeners() {
-    this._element.querySelector('.card__like-btn').addEventListener('click', this._like);
-    this._element.querySelector('.card__remove-btn').addEventListener('click', this._delete.bind(this));
+    this._likeBtn.addEventListener('click', this._like);
+    this._removeBtn.addEventListener('click', this._delete.bind(this));
     this._cardImage.addEventListener('click', () => this.handleCardClick(this._data));
   }
 
@@ -38,7 +40,8 @@ export class Card {
     this._element = this._template.cloneNode(true);
     this._cardImage = this._element.querySelector('.card__image');
     this._likeCounterElement = this._element.querySelector('.card__like-counter');
-    
+    this._removeBtn = this._element.querySelector('.card__remove-btn');
+    this._likeBtn = this._element.querySelector('.card__like-btn');
 
     this._element.querySelector('.card__title').textContent = this._data.name;
     this._cardImage.src = this._data.link;
@@ -46,6 +49,8 @@ export class Card {
 
     this._setEventListeners();
     this.setLikeCounter();
+
+    this._isOwner();
 
     return this._element;
   }

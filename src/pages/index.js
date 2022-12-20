@@ -44,7 +44,11 @@ enableValidation(validateConfig);
 let userId = '';
 const popupWithImage = new PopupWithImage(popupPictureSelector);
 function createNewCard(item) {
-  return new Card(item, '.card-template', (item) => popupWithImage.open(item), userId).createCard();
+  const cardItem = new Card(item, '.card-template', userId, {
+    handleCardClick: (item) => popupWithImage.open(item),
+  });
+  const newCard = cardItem.createCard();
+  return newCard
 }
 
 const cardList = new Section(

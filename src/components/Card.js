@@ -16,7 +16,7 @@ export class Card {
     evt.target.classList.toggle('card__like-btn_active');
   }
 
-  setLikeCounter() {
+  _setLikeCounter() {
     this._likeCounterElement.textContent = this._data.likes.length;
   }
 
@@ -49,7 +49,7 @@ export class Card {
     this._cardImage.alt = this._data.name;
 
     this._setEventListeners();
-    this.setLikeCounter();
+    this._setLikeCounter();
 
     this._isOwner();
 

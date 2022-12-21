@@ -47,4 +47,13 @@ export class Api {
     const dataPromise = response.json();
     return dataPromise;
   }
+
+  async deleteCard(data) {
+    const response = await fetch(`${this._baseUsl}/cards/${data._id}`, {
+      method: 'DELETE',
+      headers: this._headers,
+    });
+    const dataPromise = response.json();
+    return dataPromise;
+  }
 }

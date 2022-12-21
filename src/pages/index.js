@@ -4,6 +4,7 @@ import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
+import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
@@ -13,6 +14,7 @@ import { validateConfig } from '../utils/constants.js';
 const popupTypeEditSelector = '.popup_type_edit';
 const popupTypeAddSelector = '.popup_type_add';
 const popupPictureSelector = '.popup_type_picture';
+const popupConfirmSelector = '.popup_type_confirm';
 const cardsContainerSelector = '.cards';
 
 const inputProfileName = document.querySelector('.popup__input_type_name');
@@ -46,9 +48,19 @@ const popupWithImage = new PopupWithImage(popupPictureSelector);
 function createNewCard(item) {
   const cardItem = new Card(item, '.card-template', userId, {
     handleCardClick: (item) => popupWithImage.open(item),
+    handleDeleteClick: () => {
+      const popupWithConfirm = new PopupWithConfirm(popupConfirmSelector, {
+        handleSubmitForm: (item) => {
+          api.deleteCard(item);
+          cardItem.delete();
+          popupWithConfirm.close();
+        },
+      });
+      popupWithConfirm.open(item);
+    },
   });
   const newCard = cardItem.createCard();
-  return newCard
+  return newCard;
 }
 
 const cardList = new Section(

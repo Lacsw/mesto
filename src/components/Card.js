@@ -1,10 +1,11 @@
 export class Card {
-  constructor(data, templateSelector, userId, { handleCardClick }) {
+  constructor(data, templateSelector, userId, { handleCardClick, handleDeleteClick }) {
     this._data = data;
     this._ownerCardId = data.owner._id;
     this._userId = userId;
     this._getTemplate(templateSelector);
-    this.handleCardClick = handleCardClick;
+    this._handleCardClick = handleCardClick;
+    this._handleDeleteClick = handleDeleteClick;
   }
 
   _getTemplate(templateSelector) {
@@ -19,7 +20,7 @@ export class Card {
     this._likeCounterElement.textContent = this._data.likes.length;
   }
 
-  _delete() {
+  delete() {
     this._element.remove();
     this._element = null;
   }
@@ -32,8 +33,8 @@ export class Card {
 
   _setEventListeners() {
     this._likeBtn.addEventListener('click', this._like);
-    this._removeBtn.addEventListener('click', this._delete.bind(this));
-    this._cardImage.addEventListener('click', () => this.handleCardClick(this._data));
+    this._removeBtn.addEventListener('click', () => this._handleDeleteClick(this._data));
+    this._cardImage.addEventListener('click', () => this._handleCardClick(this._data));
   }
 
   createCard() {

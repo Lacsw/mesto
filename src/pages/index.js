@@ -80,7 +80,7 @@ const cardList = new Section(
 );
 
 api.getInitialCards().then((data) => {
-  cardList.renderItems(data);
+  cardList.renderItems(data.reverse());
 });
 
 const user = new UserInfo({

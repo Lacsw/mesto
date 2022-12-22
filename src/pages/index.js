@@ -58,6 +58,12 @@ function createNewCard(item) {
       });
       popupWithConfirm.open(item);
     },
+    handleLikeClick: (item) => {
+      const isLike = cardItem.isLike();
+      api.toggleLikes(item, isLike).then((res) => {
+        cardItem.setLikeCounter(res);
+      });
+    },
   });
   const newCard = cardItem.createCard();
   return newCard;

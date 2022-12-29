@@ -19,4 +19,8 @@ export class UserInfo {
     this._avatarElement.src = userData.avatar;
     this._avatarElement.alt = `Фотография ${userData.name}`
   }
+
+  setAvatar(userData) {
+    this._avatarElement.src = userData.avatar;
+  }
 }

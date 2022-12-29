@@ -15,12 +15,14 @@ const popupTypeEditSelector = '.popup_type_edit';
 const popupTypeAddSelector = '.popup_type_add';
 const popupPictureSelector = '.popup_type_picture';
 const popupConfirmSelector = '.popup_type_confirm';
+const popupAvatarUpdateSelector = '.popup_type_avatar';
 const cardsContainerSelector = '.cards';
 
 const inputProfileName = document.querySelector('.popup__input_type_name');
 const inputProfileJob = document.querySelector('.popup__input_type_job');
 const profileEditBtn = document.querySelector('.profile__edit');
 const profileAddBtn = document.querySelector('.profile__add-btn');
+const profileAvatarBtn = document.querySelector('.profile__avatar-btn');
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-56',
@@ -127,3 +129,21 @@ function handleOpenAddCardPopup() {
   formValidators['add-form'].resetValidation();
 }
 profileAddBtn.addEventListener('click', handleOpenAddCardPopup);
+
+const avatarUpdatePopup = new PopupWithForm(popupAvatarUpdateSelector, {
+  handleSubmitForm: (data) => {
+    api
+      .updateAvatar(data)
+      .then((res) => {
+        user.setAvatar(res);
+        avatarUpdatePopup.close();
+      })
+      .catch((e) => console.log(e));
+  },
+});
+
+function handleOpenAvatarUpdatePopup() {
+  avatarUpdatePopup.open();
+  formValidators['avatar-form'].resetValidation();
+}
+profileAvatarBtn.addEventListener('click', handleOpenAvatarUpdatePopup);

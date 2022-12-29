@@ -70,4 +70,16 @@ export class Api {
     const dataPromise = response.json();
     return dataPromise;
   }
+
+  async updateAvatar(data) {
+    const response = await fetch(`${this._baseUsl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: data.avatar,
+      }),
+    });
+    const dataPromise = response.json();
+    return dataPromise;
+  }
 }

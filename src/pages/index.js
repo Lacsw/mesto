@@ -98,9 +98,18 @@ api.getUserInfo().then((data) => {
 
 const profilePopup = new PopupWithForm(popupTypeEditSelector, {
   handleSubmitForm: (data) => {
-    api.setUserInfo(data).then((res) => {
-      user.setUserInfo(res);
-    });
+    profilePopup.renderLoading(true, 'Сохранение...');
+    api
+      .setUserInfo(data)
+      .then((res) => {
+        user.setUserInfo(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => {
+        profilePopup.renderLoading(false);
+      });
     profilePopup.close();
   },
 });
@@ -116,10 +125,19 @@ profileEditBtn.addEventListener('click', handleOpenProfilePopup);
 
 const addCardPopup = new PopupWithForm(popupTypeAddSelector, {
   handleSubmitForm: (data) => {
-    api.addNewCard(data).then((res) => {
-      const card = createNewCard(res);
-      cardList.addItem(card);
-    });
+    addCardPopup.renderLoading(true, 'Сохранение...');
+    api
+      .addNewCard(data)
+      .then((res) => {
+        const card = createNewCard(res);
+        cardList.addItem(card);
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => {
+        addCardPopup.renderLoading(false);
+      });
     addCardPopup.close();
   },
 });
@@ -132,13 +150,17 @@ profileAddBtn.addEventListener('click', handleOpenAddCardPopup);
 
 const avatarUpdatePopup = new PopupWithForm(popupAvatarUpdateSelector, {
   handleSubmitForm: (data) => {
+    avatarUpdatePopup.renderLoading(true, 'Сохранение...');
     api
       .updateAvatar(data)
       .then((res) => {
         user.setAvatar(res);
         avatarUpdatePopup.close();
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.log(e))
+      .finally(() => {
+        avatarUpdatePopup.renderLoading(false);
+      });
   },
 });
 

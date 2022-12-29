@@ -6,6 +6,8 @@ export class PopupWithForm extends Popup {
     this._handleSubmitForm = handleSubmitForm;
     this._formElement = this._popupElement.querySelector('.popup__form');
     this._inputList = Array.from(this._formElement.querySelectorAll('.popup__input'));
+    this._submitBtn = this._popupElement.querySelector('.popup__submit-btn');
+    this._submitBtnText = this._submitBtn.textContent;
   }
 
   _getInputValues() {
@@ -20,11 +22,19 @@ export class PopupWithForm extends Popup {
     this._handleSubmitForm(this._getInputValues());
   };
 
-  //В рантайме не существует родительского метода setEventListener и родительский open будет вызывать переопределенный setEventListeners. 
+  renderLoading(isLoading, text) {
+    if (isLoading) {
+      this._submitBtn.textContent = text;
+    } else {
+      this._submitBtn.textContent = this._submitBtnText;
+    }
+  }
+
+  //В рантайме не существует родительского метода setEventListener и родительский open будет вызывать переопределенный setEventListeners.
   //А он не имеет всех необходимых обработчиков.
   setEventListeners() {
-    this._formElement.addEventListener('submit', this._handleSubmit);
     super.setEventListeners();
+    this._formElement.addEventListener('submit', this._handleSubmit);
   }
 
   close() {

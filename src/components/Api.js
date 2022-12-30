@@ -4,13 +4,20 @@ export class Api {
     this._headers = options.headers;
   }
 
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    } else {
+      return Promise.reject(`Ошибка ${res.status}`);
+    }
+  }
+
   async getUserInfo() {
     const response = await fetch(`${this._baseUsl}/users/me`, {
       method: 'GET',
       headers: this._headers,
     });
-    const data = response.json();
-    return data;
+    return this._checkResponse(response);
   }
 
   async setUserInfo(data) {
@@ -22,8 +29,7 @@ export class Api {
         about: data.about,
       }),
     });
-    const dataPromise = response.json();
-    return dataPromise;
+    return this._checkResponse(response);
   }
 
   async getInitialCards() {
@@ -31,8 +37,7 @@ export class Api {
       method: 'GET',
       headers: this._headers,
     });
-    const data = response.json();
-    return data;
+    return this._checkResponse(response);
   }
 
   async addNewCard(data) {
@@ -44,8 +49,7 @@ export class Api {
         link: data['link'],
       }),
     });
-    const dataPromise = response.json();
-    return dataPromise;
+    return this._checkResponse(response);
   }
 
   async deleteCard(data) {
@@ -53,8 +57,7 @@ export class Api {
       method: 'DELETE',
       headers: this._headers,
     });
-    const dataPromise = response.json();
-    return dataPromise;
+    return this._checkResponse(response);
   }
 
   async toggleLikes(data, isLike) {
@@ -67,8 +70,7 @@ export class Api {
           method: 'DELETE',
           headers: this._headers,
         });
-    const dataPromise = response.json();
-    return dataPromise;
+    return this._checkResponse(response);
   }
 
   async updateAvatar(data) {
@@ -79,7 +81,6 @@ export class Api {
         avatar: data.avatar,
       }),
     });
-    const dataPromise = response.json();
-    return dataPromise;
+    return this._checkResponse(response);
   }
 }

@@ -9,20 +9,14 @@ import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
 
-import { validateConfig } from '../utils/constants.js';
-
-const popupTypeEditSelector = '.popup_type_edit';
-const popupTypeAddSelector = '.popup_type_add';
-const popupPictureSelector = '.popup_type_picture';
-const popupConfirmSelector = '.popup_type_confirm';
-const popupAvatarUpdateSelector = '.popup_type_avatar';
-const cardsContainerSelector = '.cards';
-
-const inputProfileName = document.querySelector('.popup__input_type_name');
-const inputProfileJob = document.querySelector('.popup__input_type_job');
-const profileEditBtn = document.querySelector('.profile__edit');
-const profileAddBtn = document.querySelector('.profile__add-btn');
-const profileAvatarBtn = document.querySelector('.profile__avatar-btn');
+import {
+  validateConfig,
+  inputProfileName,
+  inputProfileJob,
+  profileAddBtn,
+  profileEditBtn,
+  profileAvatarBtn,
+} from '../utils/constants.js';
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-56',
@@ -46,12 +40,13 @@ const enableValidation = (config) => {
 enableValidation(validateConfig);
 
 let userId = '';
-const popupWithImage = new PopupWithImage(popupPictureSelector);
+const popupWithImage = new PopupWithImage({ popupSelector: '.popup_type_picture' });
 function createNewCard(item) {
   const cardItem = new Card(item, '.card-template', userId, {
     handleCardClick: (item) => popupWithImage.open(item),
     handleDeleteClick: () => {
-      const popupWithConfirm = new PopupWithConfirm(popupConfirmSelector, {
+      const popupWithConfirm = new PopupWithConfirm({
+        popupSelector: '.popup_type_confirm',
         handleSubmitForm: (item) => {
           api.deleteCard(item);
           cardItem.delete();
@@ -78,7 +73,7 @@ const cardList = new Section(
       cardList.addItem(card);
     },
   },
-  cardsContainerSelector
+  '.cards'
 );
 
 api.getInitialCards().then((data) => {
@@ -96,7 +91,8 @@ api.getUserInfo().then((data) => {
   userId = data._id;
 });
 
-const profilePopup = new PopupWithForm(popupTypeEditSelector, {
+const profilePopup = new PopupWithForm({
+  popupSelector: '.popup_type_edit',
   handleSubmitForm: (data) => {
     profilePopup.renderLoading(true, 'Сохранение...');
     api
@@ -123,7 +119,8 @@ function handleOpenProfilePopup() {
 }
 profileEditBtn.addEventListener('click', handleOpenProfilePopup);
 
-const addCardPopup = new PopupWithForm(popupTypeAddSelector, {
+const addCardPopup = new PopupWithForm({
+  popupSelector: '.popup_type_add',
   handleSubmitForm: (data) => {
     addCardPopup.renderLoading(true, 'Сохранение...');
     api
@@ -148,7 +145,8 @@ function handleOpenAddCardPopup() {
 }
 profileAddBtn.addEventListener('click', handleOpenAddCardPopup);
 
-const avatarUpdatePopup = new PopupWithForm(popupAvatarUpdateSelector, {
+const avatarUpdatePopup = new PopupWithForm({
+  popupSelector: '.popup_type_avatar',
   handleSubmitForm: (data) => {
     avatarUpdatePopup.renderLoading(true, 'Сохранение...');
     api

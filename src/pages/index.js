@@ -26,6 +26,15 @@ const api = new Api({
   },
 });
 
+let userId = '';
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    userId = userData._id;
+    user.setUserInfo(userData);
+    cardList.renderItems(cards.reverse());
+  })
+  .catch((e) => console.log(e));
+
 const formValidators = {};
 const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
@@ -39,7 +48,6 @@ const enableValidation = (config) => {
 };
 enableValidation(validateConfig);
 
-let userId = '';
 const popupWithImage = new PopupWithImage({ popupSelector: '.popup_type_picture' });
 function createNewCard(item) {
   const cardItem = new Card(item, '.card-template', userId, {
@@ -86,14 +94,6 @@ const cardList = new Section(
   },
   '.cards'
 );
-
-Promise.all([api.getUserInfo(), api.getInitialCards()])
-  .then(([userData, cards]) => {
-    cardList.renderItems(cards.reverse());
-    userId = userData._id;
-    user.setUserInfo(userData);
-  })
-  .catch((e) => console.log(e));
 
 const user = new UserInfo({
   profileNameSelector: '.profile__name',

@@ -87,30 +87,19 @@ const cardList = new Section(
   '.cards'
 );
 
-api
-  .getInitialCards()
-  .then((data) => {
-    cardList.renderItems(data.reverse());
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    cardList.renderItems(cards.reverse());
+    userId = userData._id;
+    user.setUserInfo(userData);
   })
-  .catch((e) => {
-    console.log(e);
-  });
+  .catch((e) => console.log(e));
 
 const user = new UserInfo({
   profileNameSelector: '.profile__name',
   profileJobSelector: '.profile__job',
   profileAvatarSelector: '.profile__image',
 });
-
-api
-  .getUserInfo()
-  .then((data) => {
-    user.setUserInfo(data);
-    userId = data._id;
-  })
-  .catch((e) => {
-    console.log(e);
-  });
 
 const profilePopup = new PopupWithForm({
   popupSelector: '.popup_type_edit',

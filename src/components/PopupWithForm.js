@@ -32,8 +32,8 @@ export class PopupWithForm extends Popup {
 
   //В рантайме не существует родительского метода setEventListener и родительский open будет вызывать переопределенный setEventListeners.
   //А он не имеет всех необходимых обработчиков.
-  setEventListeners() {
-    super.setEventListeners();
+  _setEventListeners() {
+    super._setEventListeners();
     this._formElement.addEventListener('submit', this._handleSubmit);
   }
 

@@ -111,6 +111,7 @@ const profilePopup = new PopupWithForm({
       .setUserInfo(data)
       .then((res) => {
         user.setUserInfo(res);
+        profilePopup.close();
       })
       .catch((e) => {
         console.log(e);
@@ -118,7 +119,6 @@ const profilePopup = new PopupWithForm({
       .finally(() => {
         profilePopup.renderLoading(false);
       });
-    profilePopup.close();
   },
 });
 
@@ -140,6 +140,7 @@ const addCardPopup = new PopupWithForm({
       .then((res) => {
         const card = createNewCard(res);
         cardList.addItem(card);
+        addCardPopup.close();
       })
       .catch((e) => {
         console.log(e);
@@ -147,7 +148,6 @@ const addCardPopup = new PopupWithForm({
       .finally(() => {
         addCardPopup.renderLoading(false);
       });
-    addCardPopup.close();
   },
 });
 

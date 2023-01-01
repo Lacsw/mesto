@@ -48,26 +48,28 @@ const enableValidation = (config) => {
 };
 enableValidation(validateConfig);
 
+const popupWithConfirm = new PopupWithConfirm({
+  popupSelector: '.popup_type_confirm',
+  handleSubmitForm: (item) => {
+    api
+      .deleteCard(item._data)
+      .then(() => {
+        item.delete();
+        popupWithConfirm.close();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  },
+});
+
 const popupWithImage = new PopupWithImage({ popupSelector: '.popup_type_picture' });
+
 function createNewCard(item) {
   const cardItem = new Card(item, '.card-template', userId, {
     handleCardClick: (item) => popupWithImage.open(item),
     handleDeleteClick: () => {
-      const popupWithConfirm = new PopupWithConfirm({
-        popupSelector: '.popup_type_confirm',
-        handleSubmitForm: (item) => {
-          api
-            .deleteCard(item)
-            .then(() => {
-              cardItem.delete();
-              popupWithConfirm.close();
-            })
-            .catch((e) => {
-              console.log(e);
-            });
-        },
-      });
-      popupWithConfirm.open(item);
+      popupWithConfirm.open(cardItem);
     },
     handleLikeClick: (item) => {
       const isLike = cardItem.isLike();
